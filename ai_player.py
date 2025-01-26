@@ -73,16 +73,20 @@ class AIPlayer(Player):
         pos = pos.flatten()
         
         is_set = False
-        
-        while not is_set:
-            x, y = pos.argmax() // 10, pos.argmax() % 10
+        sorted_pos = pos.argsort(descending = True)
+        for i in range(100):
+            x, y = sorted_pos[i] // 10, sorted_pos[i] % 10
             x = x.item()
             y = y.item()
             rot = self.find_working_rotation(ship, x, y, map)
             if rot is not None:
-                is_set = True
-            else:
-                pos[pos.argmax()] = 0
+                break
+        if rot is None:
+            for x in range(10):
+                for y in range(10):
+                    for rot in range(4):
+                        if map.place_ship(ship, x, y, rot, True):
+                            return map.place_ship(ship, x, y, rot)
 
         return map.place_ship(ship, x, y, rot)
         
@@ -91,15 +95,20 @@ class AIPlayer(Player):
         tensor_hit = tensor_hit.unflatten(0,(1,10,10))
         pos = self.fight_brain(tensor_hit)
         pos = pos.flatten()
-        is_set = False
-        while not is_set:
-            x, y = pos.argmax() // 10, pos.argmax() % 10
+        sorted_pos = pos.argsort(descending = True)
+        success = False
+        for i in range(100):
+            x, y = sorted_pos[i] // 10, sorted_pos[i] % 10
             x = x.item()
             y = y.item()
-            if self.hit_grid.grid[y][x] == 0:
-                is_set = True
-            else:
-                pos[pos.argmax()] = 0
+            if hit_grid.grid[y][x] == 0:
+                success = True
+                break
+        if not success:
+            for x in range(10):
+                for y in range(10):
+                    if hit_grid.grid[y][x] == 0:
+                        return map.hit(x, y), x, y
         return map.hit(x, y), x, y
         
 

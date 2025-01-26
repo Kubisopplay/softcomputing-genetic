@@ -33,9 +33,9 @@ def fresh_ai():
     fb = FightBrain()
     pb_pos = PlaceBrainPos()
     for param in fb.parameters():
-        param.data = torch.randn_like(param)
+        param.data = torch.randn_like(param)* 0.01
     for param in pb_pos.parameters():
-        param.data = torch.randn_like(param)
+        param.data = torch.randn_like(param)* 0.01
 
     return AIPlayer(fb, pb_pos)
 
@@ -45,10 +45,10 @@ def mutate_ai(ai : AIPlayer, mutation_ratio = 0.05):
     pb = ai.place_brain
     for param in fb.parameters():
         if random.random() < mutation_ratio:
-            param.data += torch.randn_like(param)
+            param.data += torch.randn_like(param)   * 0.01
     for param in pb.parameters():
         if random.random() < mutation_ratio:
-            param.data += torch.randn_like(param)
+            param.data += torch.randn_like(param)* 0.01
     ai.hit_grid = HitGrid(10)
     return ai
 
@@ -77,7 +77,7 @@ def crossover_ai(ai1 : AIPlayer, ai2 : AIPlayer):
     return AIPlayer(fbc, pbc)
 
 
-import multiprocessing as mp
+
 def epoch(population : list, mutation_rate = 0.05):
     
     victims = population.copy()
