@@ -91,9 +91,10 @@ def crossover_ai(ai1 : AIPlayer, ai2 : AIPlayer):
 
 def epoch(population : list, mutation_rate = 0.50):
     
-    victims = population.copy()
+    victims = population
     for ai in victims:
         ai.score = -50
+        ai.hit_grid = HitGrid(10)
     
     
     winners = []
@@ -147,7 +148,7 @@ def epoch(population : list, mutation_rate = 0.50):
     best = max(winners, key = lambda x: x.score)
     
     logs={
-            "avg_score": sum([x.score for x in population])/len(population),
+            "avg_score": sum([x.score for x in winners])/len(winners),
             "best_score": best.score
         }
     
@@ -179,7 +180,7 @@ def genetic_algorithm():
     population = [fresh_ai() for i in range(100)]
     logs = []
     best = {}
-    for i in range(100):
+    for i in range(1000):
         population, log = epoch(population)
 
         best = max(population, key = lambda x: x.score).clone()
