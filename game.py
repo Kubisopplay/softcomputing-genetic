@@ -23,6 +23,8 @@ class Ship:
     def hit(self, x, y):
         loc = self.translate_to_loc(x, y)
         if loc is not False:
+            if self.hit_loc[loc] == True:
+                return False
             self.hit_loc[loc] = True
             self.hp = self.max_hp - sum(self.hit_loc)
             if self.hp == 0:
@@ -36,23 +38,23 @@ class Ship:
             return False
         else:
             if self.rot == 0 and y == self.y:
-                if x >= self.x and x < self.x + self.max_hp:
-                    return self.x + self.max_hp - x - 1
+                if x >= self.x and x < self.x + self.max_hp :
+                    return x - self.x
                 else:
                     return False
             elif self.rot == 1 and x == self.x:
-                if y <= self.y and y > self.y - self.max_hp:
-                    return self.y - self.max_hp - y + 1
+                if y >= self.y and y < self.y + self.max_hp :
+                    return y - self.y 
                 else:
                     return False
             elif self.rot == 2 and y == self.y:
-                if x <= self.x and x > self.x - self.max_hp:
-                    return self.x - self.max_hp - x + 1
+                if x <= self.x and x > self.x - self.max_hp  :
+                    return self.x - x 
                 else:
                     return False
             elif self.rot == 3 and x == self.x:
-                if y >= self.y and y < self.y + self.max_hp:
-                    return y - self.y
+                if y <= self.y and y > self.y - self.max_hp :
+                    return self.y - y
                 else:
                     return False
         
@@ -69,11 +71,11 @@ class Map:
             if ship.rot == 0:
                 return [(ship.x + i, ship.y) for i in range(ship.max_hp)]
             elif ship.rot == 1:
-                return [(ship.x, ship.y - i) for i in range(ship.max_hp)]
+                return [(ship.x, ship.y + i) for i in range(ship.max_hp)]
             elif ship.rot == 2:
                 return [(ship.x - i, ship.y) for i in range(ship.max_hp)]
             elif ship.rot == 3:
-                return [(ship.x, ship.y + i) for i in range(ship.max_hp)]
+                return [(ship.x, ship.y - i) for i in range(ship.max_hp)]
         def check_surroundings(map,x, y):
             for i in range(-1, 2):
                 for j in range(-1, 2):
@@ -141,9 +143,9 @@ class Map:
             elif ship.rot == 1:
                 for i,loc in enumerate(ship.hit_loc):
                     if loc:
-                        grid[ship.y - i][ship.x] = -1
+                        grid[ship.y + i][ship.x] = -1
                     else:
-                        grid[ship.y - i][ship.x] = 1
+                        grid[ship.y + i][ship.x] = 1
             elif ship.rot == 2:
                 for i,loc in enumerate(ship.hit_loc):
                     if loc:
@@ -153,9 +155,9 @@ class Map:
             elif ship.rot == 3:
                 for i,loc in enumerate(ship.hit_loc):
                     if loc:
-                        grid[ship.y + i][ship.x] = -1
+                        grid[ship.y - i][ship.x] = -1
                     else:
-                        grid[ship.y + i][ship.x] = 1
+                        grid[ship.y - i][ship.x] = 1
             
         return grid
         
@@ -272,6 +274,15 @@ class Game:
             self.winner = self.player1
             self.loser = self.player2
             self.game_over = True
+        if  all(x != 0 for row in self.player1.hit_grid.grid for x in row) and any(ship.hp > 0 for ship in self.map2.ships):
+            self.game_over = True
+            self.player1.score += -100
+        if all(x != 0 for row in self.player2.hit_grid.grid for x in row) and any(ship.hp > 0 for ship in self.map1.ships):
+            self.game_over = True
+            self.player2.score += -100
+        
+        
+        
         
     def turn(self):
         effect, x, y = self.player1.shoot( self.player1.hit_grid,self.map2)

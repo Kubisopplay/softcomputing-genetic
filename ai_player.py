@@ -58,7 +58,7 @@ class AIPlayer(Player):
         self.fight_brain = fb
         self.place_brain =  pb
 
-        self.score = -50
+        self.score = 0
 
     def find_working_rotation(self, ship, x, y, map):
         for rot in range(4):

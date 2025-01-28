@@ -1,0 +1,402 @@
+[
+    {
+        "avg_score": -86.005,
+        "best_score": -75.5
+    },
+    {
+        "avg_score": -120.91,
+        "best_score": -68.5
+    },
+    {
+        "avg_score": -117.84,
+        "best_score": -76.5
+    },
+    {
+        "avg_score": -126.83,
+        "best_score": -80.5
+    },
+    {
+        "avg_score": -127.68,
+        "best_score": -79.0
+    },
+    {
+        "avg_score": -155.85,
+        "best_score": -84.5
+    },
+    {
+        "avg_score": -139.1,
+        "best_score": -78.5
+    },
+    {
+        "avg_score": -126.75,
+        "best_score": -79.0
+    },
+    {
+        "avg_score": -128.35,
+        "best_score": -79.0
+    },
+    {
+        "avg_score": -147.28,
+        "best_score": -76.5
+    },
+    {
+        "avg_score": -128.81,
+        "best_score": -78.5
+    },
+    {
+        "avg_score": -140.8,
+        "best_score": -82.0
+    },
+    {
+        "avg_score": -148.24,
+        "best_score": -75.5
+    },
+    {
+        "avg_score": -123.34,
+        "best_score": -72.0
+    },
+    {
+        "avg_score": -128.04,
+        "best_score": -74.5
+    },
+    {
+        "avg_score": -153.34,
+        "best_score": -77.5
+    },
+    {
+        "avg_score": -150.62,
+        "best_score": -73.0
+    },
+    {
+        "avg_score": -136.31,
+        "best_score": -80.0
+    },
+    {
+        "avg_score": -123.72,
+        "best_score": -82.5
+    },
+    {
+        "avg_score": -128.29,
+        "best_score": -82.0
+    },
+    {
+        "avg_score": -132.24,
+        "best_score": -77.5
+    },
+    {
+        "avg_score": -160.43,
+        "best_score": -76.5
+    },
+    {
+        "avg_score": -124.59,
+        "best_score": -79.0
+    },
+    {
+        "avg_score": -131.18,
+        "best_score": -82.0
+    },
+    {
+        "avg_score": -126.73,
+        "best_score": -75.0
+    },
+    {
+        "avg_score": -161.5,
+        "best_score": -67.0
+    },
+    {
+        "avg_score": -133.46,
+        "best_score": -81.5
+    },
+    {
+        "avg_score": -140.63,
+        "best_score": -83.0
+    },
+    {
+        "avg_score": -146.58,
+        "best_score": -77.0
+    },
+    {
+        "avg_score": -124.58,
+        "best_score": -76.5
+    },
+    {
+        "avg_score": -129.16,
+        "best_score": -80.0
+    },
+    {
+        "avg_score": -147.05,
+        "best_score": -72.5
+    },
+    {
+        "avg_score": -127.59,
+        "best_score": -77.0
+    },
+    {
+        "avg_score": -150.24,
+        "best_score": -75.5
+    },
+    {
+        "avg_score": -148.7,
+        "best_score": -79.0
+    },
+    {
+        "avg_score": -132.14,
+        "best_score": -81.0
+    },
+    {
+        "avg_score": -135.36,
+        "best_score": -76.0
+    },
+    {
+        "avg_score": -144.32,
+        "best_score": -81.0
+    },
+    {
+        "avg_score": -122.8,
+        "best_score": -83.0
+    },
+    {
+        "avg_score": -125.68,
+        "best_score": -81.5
+    },
+    {
+        "avg_score": -132.15,
+        "best_score": -70.5
+    },
+    {
+        "avg_score": -143.23,
+        "best_score": -81.0
+    },
+    {
+        "avg_score": -128.89,
+        "best_score": -80.0
+    },
+    {
+        "avg_score": -153.55,
+        "best_score": -70.0
+    },
+    {
+        "avg_score": -133.91,
+        "best_score": -81.0
+    },
+    {
+        "avg_score": -147.16,
+        "best_score": -77.0
+    },
+    {
+        "avg_score": -156.65,
+        "best_score": -76.0
+    },
+    {
+        "avg_score": -154.37,
+        "best_score": -83.0
+    },
+    {
+        "avg_score": -134.19,
+        "best_score": -76.5
+    },
+    {
+        "avg_score": -120.61,
+        "best_score": -80.5
+    },
+    {
+        "avg_score": -134.12,
+        "best_score": -73.5
+    },
+    {
+        "avg_score": -122.67,
+        "best_score": -77.0
+    },
+    {
+        "avg_score": -140.82,
+        "best_score": -79.5
+    },
+    {
+        "avg_score": -139.47,
+        "best_score": -78.5
+    },
+    {
+        "avg_score": -137.4,
+        "best_score": -79.5
+    },
+    {
+        "avg_score": -152.17,
+        "best_score": -76.5
+    },
+    {
+        "avg_score": -132.11,
+        "best_score": -81.0
+    },
+    {
+        "avg_score": -127.49,
+        "best_score": -71.5
+    },
+    {
+        "avg_score": -144.71,
+        "best_score": -71.5
+    },
+    {
+        "avg_score": -128.17,
+        "best_score": -79.0
+    },
+    {
+        "avg_score": -155.2,
+        "best_score": -81.0
+    },
+    {
+        "avg_score": -124.28,
+        "best_score": -80.0
+    },
+    {
+        "avg_score": -149.06,
+        "best_score": -84.0
+    },
+    {
+        "avg_score": -142.43,
+        "best_score": -84.0
+    },
+    {
+        "avg_score": -140.12,
+        "best_score": -79.0
+    },
+    {
+        "avg_score": -122.96,
+        "best_score": -77.5
+    },
+    {
+        "avg_score": -130.84,
+        "best_score": -79.5
+    },
+    {
+        "avg_score": -128.0,
+        "best_score": -79.0
+    },
+    {
+        "avg_score": -146.83,
+        "best_score": -83.0
+    },
+    {
+        "avg_score": -139.33,
+        "best_score": -82.0
+    },
+    {
+        "avg_score": -119.13,
+        "best_score": -81.5
+    },
+    {
+        "avg_score": -144.99,
+        "best_score": -76.5
+    },
+    {
+        "avg_score": -143.05,
+        "best_score": -80.0
+    },
+    {
+        "avg_score": -146.41,
+        "best_score": -81.5
+    },
+    {
+        "avg_score": -127.23,
+        "best_score": -84.5
+    },
+    {
+        "avg_score": -124.38,
+        "best_score": -82.5
+    },
+    {
+        "avg_score": -123.99,
+        "best_score": -76.5
+    },
+    {
+        "avg_score": -125.42,
+        "best_score": -84.5
+    },
+    {
+        "avg_score": -156.28,
+        "best_score": -82.0
+    },
+    {
+        "avg_score": -134.87,
+        "best_score": -78.5
+    },
+    {
+        "avg_score": -126.21,
+        "best_score": -75.5
+    },
+    {
+        "avg_score": -168.65,
+        "best_score": -80.0
+    },
+    {
+        "avg_score": -134.84,
+        "best_score": -81.0
+    },
+    {
+        "avg_score": -121.17,
+        "best_score": -84.0
+    },
+    {
+        "avg_score": -132.22,
+        "best_score": -80.0
+    },
+    {
+        "avg_score": -134.89,
+        "best_score": -80.5
+    },
+    {
+        "avg_score": -157.22,
+        "best_score": -78.5
+    },
+    {
+        "avg_score": -133.99,
+        "best_score": -79.5
+    },
+    {
+        "avg_score": -126.4,
+        "best_score": -81.0
+    },
+    {
+        "avg_score": -132.91,
+        "best_score": -79.0
+    },
+    {
+        "avg_score": -132.99,
+        "best_score": -73.0
+    },
+    {
+        "avg_score": -151.66,
+        "best_score": -60.0
+    },
+    {
+        "avg_score": -122.87,
+        "best_score": -77.0
+    },
+    {
+        "avg_score": -128.46,
+        "best_score": -76.0
+    },
+    {
+        "avg_score": -120.33,
+        "best_score": -76.5
+    },
+    {
+        "avg_score": -146.18,
+        "best_score": -84.0
+    },
+    {
+        "avg_score": -148.9,
+        "best_score": -78.5
+    },
+    {
+        "avg_score": -143.2,
+        "best_score": -78.0
+    },
+    {
+        "avg_score": -126.05,
+        "best_score": -76.0
+    },
+    {
+        "avg_score": -143.17,
+        "best_score": -78.5
+    }
+]

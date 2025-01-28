@@ -5,37 +5,48 @@ import tqdm
 import random
 
 def score(game : Game):
-    if game.winner is not None:
-        if game.walkover == False:
-            #print("We have a winner!")
-            game.winner.score = 100 - game.turn_number
-        return game.winner
+    p1_score = game.player1.score
+    p2_score = game.player2.score
+    
+    if any([x != 0 for row in game.player1.hit_grid.grid for x in row]):
+        for row in game.player1.hit_grid.grid:
+            for cell in row:
+                if cell == -1:
+                    p1_score -= 0.5
+                elif cell == 1:
+                    p1_score += 1
     else:
-        if len(game.map1.ships) <10 or len(game.map2.ships) < 10:
-            p1_score = len(game.map1.ships) - 10    
-            p2_score = len(game.map2.ships) - 10
-            game.player1.score = p1_score
-            game.player2.score = p2_score
-        else:
-            p1_score = 20 - sum([ship.hp for ship in game.map2.ships])
-            p2_score = 20 -sum([ship.hp for ship in game.map1.ships])
-            game.player1.score = p1_score
-            game.player2.score = p2_score   
-        if p1_score > p2_score:
-            return game.player1
-        elif p2_score > p1_score:
-            return game.player2
-        else:
-            return None
+        p1_score = None
+    
+    if any([x != 0 for row in game.player2.hit_grid.grid for x in row]):
+                
+        for row in game.player2.hit_grid.grid:
+            for cell in row:
+                if cell == -1:
+                    p2_score -= 0.5
+                elif cell == 1:
+                    p2_score += 1
+                    
+    else:
+        p2_score = None
+        
+    game.player1.score = p1_score
+    game.player2.score = p2_score
+    game.player1.hit_grid = HitGrid(10)
+    game.player2.hit_grid = HitGrid(10)
+        
+    
+    
+
         
         
 def fresh_ai():
     fb = FightBrain()
     pb_pos = PlaceBrainPos()
     for param in fb.parameters():
-        param.data = torch.randn_like(param)* 0.01
+        param.data = torch.randn_like(param)* 0.1
     for param in pb_pos.parameters():
-        param.data = torch.randn_like(param)* 0.01
+        param.data = torch.randn_like(param)* 0.1
 
     return AIPlayer(fb, pb_pos)
 
@@ -45,10 +56,10 @@ def mutate_ai(ai : AIPlayer, mutation_ratio = 0.05):
     pb = ai.place_brain
     for param in fb.parameters():
         if random.random() < mutation_ratio:
-            param.data += torch.randn_like(param)   * 0.01
+            param.data += torch.randn_like(param)   * 0.1
     for param in pb.parameters():
         if random.random() < mutation_ratio:
-            param.data += torch.randn_like(param)* 0.01
+            param.data += torch.randn_like(param)* 0.1
     ai.hit_grid = HitGrid(10)
     return ai
 
@@ -78,10 +89,13 @@ def crossover_ai(ai1 : AIPlayer, ai2 : AIPlayer):
 
 
 
-def epoch(population : list, mutation_rate = 0.05):
+def epoch(population : list, mutation_rate = 0.50):
     
     victims = population.copy()
-
+    for ai in victims:
+        ai.score = -50
+    
+    
     winners = []
     
     processes = []
@@ -97,48 +111,88 @@ def epoch(population : list, mutation_rate = 0.05):
         game.player2 = p2
         game.play()
         
-        winner = score(game)
-        if winner is not None:
-            winners.append(winner)
+        score(game)
+        
+        winners.append(game.player1)
+        winners.append(game.player2)
+        
+    for ai in winners:
+        if ai.score is None:
+            winners.remove(ai)
+        ai.hit_grid = HitGrid(10)   
+    second_wave = []
+    
+    while len(winners) > 1:
+        
+        p1 = random.choice(winners)
+        winners.remove(p1)
+        p2 = random.choice(winners)
+        winners.remove(p2) 
+        
+        game = Game()
+        game.player1 = p1
+        game.player2 = p2
+        game.play()
+        
+        score(game)
+        
+        second_wave.append(game.player1)
+        second_wave.append(game.player2)
+        
+    winners = second_wave
 
+    for ai in winners:
+        if ai.score is None:
+            winners.remove(ai)
+    best = max(winners, key = lambda x: x.score)
+    
+    logs={
+            "avg_score": sum([x.score for x in population])/len(population),
+            "best_score": best.score
+        }
+    
+    print(logs)
         
     new_population = []
     
     winners = sorted(winners, key = lambda x: x.score, reverse = True)
     
-    for ai in winners[:10]:
+    for ai in winners[:15]:
         ai.grid = HitGrid(10)
         new_population.append(ai)
     
-    for ai in winners[:30]:
-        for i in range(5):
+    for ai in winners[:25]:
+        for i in range(1):
             new_population.append(mutate_ai(ai, mutation_rate))
         
-    for i in range(20):
+        
+    while len(new_population) < 50:
         new_population.append(fresh_ai())
-    while len(new_population) < 200:
-        winner = random.choice(winners)
-        winner2 = random.choice(winners)
-        while winner == winner2 and len(winners) > 1:
-            winner2 = random.choice(winners)
-       # new_population.append(crossover_ai(winner, winner2))
-        new_population.append(mutate_ai(winner))
         
     
         
     
-    return new_population
+    return new_population, logs
 
 
 def genetic_algorithm():
     population = [fresh_ai() for i in range(100)]
+    logs = []
     best = {}
     for i in range(100):
-        population = epoch(population)
+        population, log = epoch(population)
+
+        best = max(population, key = lambda x: x.score).clone()
+        if i % 25 == 0:
+            
+            best.save_brains(i)
+        logs.append(log)
         
-        best[i] = max(population, key = lambda x: x.score).clone()
-        best[i].save_brains(i)
-        print(best[i], best[i].score)
+
+    import json
+    with open("logs.json", "w") as f:
+        json.dump(logs, f, indent=4)
+    
     
     return population, best
 
