@@ -8,7 +8,7 @@ def score(game : Game):
     p1_score = game.player1.score
     p2_score = game.player2.score
     
-    if any([x != 0 for row in game.player1.hit_grid.grid for x in row]):
+    if any([x != 0 for row in game.player1.hit_grid.grid for x in row]) and p1_score is not None:
         for row in game.player1.hit_grid.grid:
             for cell in row:
                 if cell == -1:
@@ -18,7 +18,7 @@ def score(game : Game):
     else:
         p1_score = None
     
-    if any([x != 0 for row in game.player2.hit_grid.grid for x in row]):
+    if any([x != 0 for row in game.player2.hit_grid.grid for x in row]) and p2_score is not None:
                 
         for row in game.player2.hit_grid.grid:
             for cell in row:
@@ -44,9 +44,9 @@ def fresh_ai():
     fb = FightBrain()
     pb_pos = PlaceBrainPos()
     for param in fb.parameters():
-        param.data = torch.randn_like(param)* 0.1
+        param.data = torch.randn_like(param)
     for param in pb_pos.parameters():
-        param.data = torch.randn_like(param)* 0.1
+        param.data = torch.randn_like(param)
 
     return AIPlayer(fb, pb_pos)
 
@@ -56,10 +56,10 @@ def mutate_ai(ai : AIPlayer, mutation_ratio = 0.05):
     pb = ai.place_brain
     for param in fb.parameters():
         if random.random() < mutation_ratio:
-            param.data += torch.randn_like(param)   * 0.1
+            param.data += torch.randn_like(param)  * 0.1 
     for param in pb.parameters():
         if random.random() < mutation_ratio:
-            param.data += torch.randn_like(param)* 0.1
+            param.data += torch.randn_like(param)  * 0.1
     ai.hit_grid = HitGrid(10)
     return ai
 
@@ -117,34 +117,41 @@ def epoch(population : list, mutation_rate = 0.50):
         winners.append(game.player1)
         winners.append(game.player2)
         
-    for ai in winners:
-        if ai.score is None:
-            winners.remove(ai)
-        ai.hit_grid = HitGrid(10)   
-    second_wave = []
-    
-    while len(winners) > 1:
+    for i in range(5):
+        for ai in winners:
+            if ai.score is None:
+                winners.remove(ai)
+            ai.hit_grid = HitGrid(10)   
+        second_wave = []
         
-        p1 = random.choice(winners)
-        winners.remove(p1)
-        p2 = random.choice(winners)
-        winners.remove(p2) 
+        while len(winners) > 1:
+            
+            p1 = random.choice(winners)
+            winners.remove(p1)
+            p2 = random.choice(winners)
+            winners.remove(p2) 
+            
+            game = Game()
+            game.player1 = p1
+            game.player2 = p2
+            game.play()
+            
+            score(game)
+            
+            second_wave.append(game.player1)
+            second_wave.append(game.player2)
         
-        game = Game()
-        game.player1 = p1
-        game.player2 = p2
-        game.play()
-        
-        score(game)
-        
-        second_wave.append(game.player1)
-        second_wave.append(game.player2)
-        
-    winners = second_wave
+        winners = second_wave
 
+    filtered = []
+    
     for ai in winners:
-        if ai.score is None:
-            winners.remove(ai)
+        if ai.score is not None:
+            filtered.append(ai)
+    
+    winners = filtered
+    
+
     best = max(winners, key = lambda x: x.score)
     
     logs={
@@ -158,16 +165,16 @@ def epoch(population : list, mutation_rate = 0.50):
     
     winners = sorted(winners, key = lambda x: x.score, reverse = True)
     
-    for ai in winners[:15]:
+    for ai in winners[:40]:
         ai.grid = HitGrid(10)
         new_population.append(ai)
     
-    for ai in winners[:25]:
-        for i in range(1):
+    for ai in winners[:80]:
+        for i in range(4):
             new_population.append(mutate_ai(ai, mutation_rate))
         
         
-    while len(new_population) < 50:
+    while len(new_population) < 500:
         new_population.append(fresh_ai())
         
     
@@ -177,7 +184,7 @@ def epoch(population : list, mutation_rate = 0.50):
 
 
 def genetic_algorithm():
-    population = [fresh_ai() for i in range(100)]
+    population = [fresh_ai() for i in range(5000)]
     logs = []
     best = {}
     for i in range(1000):
