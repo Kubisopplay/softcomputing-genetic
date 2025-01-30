@@ -50,17 +50,20 @@ def fresh_ai():
 
     return AIPlayer(fb, pb_pos)
 
-
+@torch.no_grad()
 def mutate_ai(ai : AIPlayer, mutation_ratio = 0.05):
+    
     fb = ai.fight_brain
     pb = ai.place_brain
     for param in fb.parameters():
         if random.random() < mutation_ratio:
             param.data += torch.randn_like(param)  * 0.1 
+        param.data = torch.clamp(param.data, -2, 2)
     for param in pb.parameters():
         if random.random() < mutation_ratio:
             param.data += torch.randn_like(param)  * 0.1
     ai.hit_grid = HitGrid(10)
+    
     return ai
 
 def crossover_ai(ai1 : AIPlayer, ai2 : AIPlayer):
@@ -88,8 +91,8 @@ def crossover_ai(ai1 : AIPlayer, ai2 : AIPlayer):
     return AIPlayer(fbc, pbc)
 
 
-
-def epoch(population : list, mutation_rate = 0.50):
+@torch.no_grad()
+def epoch(population : list, mutation_rate = 0.5):
     
     victims = population
     for ai in victims:
@@ -117,7 +120,7 @@ def epoch(population : list, mutation_rate = 0.50):
         winners.append(game.player1)
         winners.append(game.player2)
         
-    for i in range(5):
+    for i in range(1):
         for ai in winners:
             if ai.score is None:
                 winners.remove(ai)
