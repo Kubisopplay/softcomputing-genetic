@@ -2,14 +2,19 @@ from game import *
 from ai_player import *
 from genetic import *
 
-testmap = Map(10)
 
-testmap.place_ship("battleship", 0, 0, 0)
+fb = FightBrain().load_state_dict(torch.load("fight_brain.pth"))
+pb = PlaceBrainPos()
 
-testmap.place_ship("battleship", 0, 2, 1)
+ai = AIPlayer(fb, pb)
 
-testmap.place_ship("battleship", 8, 2, 2)
+human = Player()
 
-testmap.place_ship("battleship", 8,8,3)
+game = Game()
 
-testmap.print_map()
+game.player1 = ai
+
+game.player2 = human
+
+game.start_game()
+
